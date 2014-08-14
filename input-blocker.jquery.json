@@ -1,0 +1,28 @@
+{
+  "name": "input-blocker",
+  "title": "jQuery Input Blocker",
+  "description": "Blocks not allowed by regexp character on input/paste",
+  "version": "1.0.0",
+  "homepage": "https://github.com/Palid/jquery-input-blocker",
+  "author": {
+    "name": "Dariusz 'Palid' Niemczyk",
+    "url": "https://github.com/Palid"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Palid/jquery-input-blocker"
+  },
+  "bugs": "https://github.com/Palid/jquery-input-blocker/issues",
+  "licenses": [
+    {
+      "type": "GNU",
+      "url": "http://opensource.org/licenses/GNU"
+    }
+  ],
+  "dependencies": {
+    "jquery": "~1.9"
+  },
+  "keywords": [
+    "jquery-plugin"
+  ]
+}
