@@ -1,3 +1,6 @@
+![Travis status](https://travis-ci.org/soltys/jquery-input-blocker.svg?branch=master)
+
+
 # jQuery Input Blocker
 
 Lets through only allowed characters for `<input>` elements. Also works with pasting!

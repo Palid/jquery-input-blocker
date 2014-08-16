@@ -6,7 +6,8 @@
     "jquery-plugin"
   ],
   "scripts": {
-    "run": "grunt"
+    "run": "grunt",
+    "test": "grunt connect qunit"
   },
   "homepage": "https://github.com/Palid/input-blocker",
   "bugs": "https://github.com/Palid/jquery-input-blocker/issues",
