@@ -1,4 +1,4 @@
-![Travis status](https://travis-ci.org/soltys/jquery-input-blocker.svg?branch=master)
+![Travis status](https://travis-ci.org/Palid/jquery-input-blocker.svg?branch=master)
 
 
 # jQuery Input Blocker
