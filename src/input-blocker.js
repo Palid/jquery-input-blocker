@@ -37,15 +37,19 @@
     }
     if (KEYS[code]) {
       this.inputBlocker.__passEvent__ = false;
+      this.inputBlocker.__lastKey__ = KEYS[code];
       return true;
     }
     this.inputBlocker.__passEvent__ = true;
   }
 
   function OnKeyPress(event) {
-    var code = event.which || event.keyCode;
+    var code = event.which || event.keyCode,
+      character = String.fromCharCode(code);
     if (this.inputBlocker.__passEvent__) {
-      if (this.inputBlocker.__allowedRe__.test(String.fromCharCode(code))) {
+      this.inputBlocker.__lastKey__ = character;
+      if (this.inputBlocker.__allowedRe__.test(character)) {
+        this.inputBlocker.__lastAllowedKey__ = character;
         return true;
       } else {
         return false;
@@ -163,7 +167,9 @@
           start: 0,
           end: 0
         },
-        __lastPasteData__: ''
+        __lastPasteData__: '',
+        __lastAllowedKey__: '',
+        __lastKey__: ''
       }
     });
     // 524288 is a bug in webkit that equals undefined maxlength

@@ -41,3 +41,4 @@ _(Coming soon)_
 
 ## Release History
 V 1.00 released 15.08.2014.
+V 1.01 released 17.08.2014.
