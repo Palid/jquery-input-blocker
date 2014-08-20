@@ -27,10 +27,10 @@
   };
 
   function OnKeyDown(event) {
-    var $el = $(this);
-    var code = event.which || event.keyCode;
+    var $el = $(this),
+      code = event.which || event.keyCode;
     this.inputBlocker.__lastSelection__ = $.inputBlocker.getSelection($el);
-    this.inputBlocker.__lastValue__ = $el.val();
+    this.inputBlocker.__lastValue__ = this.value;
     if (event.ctrlKey && !event.altKey) {
       this.inputBlocker.__passEvent__ = false;
       return true;
@@ -103,14 +103,16 @@
     var $el = $(this);
     if (this.inputBlocker.__canPaste__) {
       this.inputBlocker.__lastSelection__ = $.inputBlocker.getSelection($el);
-      this.inputBlocker.__lastValue__ = $el.val();
+      this.inputBlocker.__lastValue__ = this.value;
       if (event.originalEvent &&
-        event.originalEvent.clipboardData && event.originalEvent.clipboardData.getData) {
+        event.originalEvent.clipboardData &&
+        event.originalEvent.clipboardData.getData
+      ) {
         this.inputBlocker.__lastPasteData__ = event.originalEvent.clipboardData.getData('text/plain');
         ReplacePasted.call(this);
         return false;
       } else {
-        $el.val("");
+        this.value = '';
         WaitForPaste.call(this);
         return false;
       }
