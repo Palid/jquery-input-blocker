@@ -8,8 +8,10 @@
   <!-- Load local QUnit. -->
   <link rel="stylesheet" href="../bower_components/qunit/qunit/qunit.css" media="screen">
   <script src="../bower_components/qunit/qunit/qunit.js"></script>
+  <!-- Load local blanket.js -->
+  <script src="../bower_components/blanket/dist/qunit/blanket.js"></script>
   <!-- Load local lib and tests. -->
-  <script src="../src/input-blocker.js"></script>
+  <script src="../src/input-blocker.js" data-cover></script>
   <script src="input-blocker_test.js"></script>
   <!-- Removing access to jQuery and $. But it'll still be available as _$, if
        you REALLY want to mess around with jQuery in the console. REMEMBER WE

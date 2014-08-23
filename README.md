@@ -1,4 +1,4 @@
-![Travis status](https://travis-ci.org/Palid/jquery-input-blocker.svg?branch=master)
+![Travis status](https://travis-ci.org/Palid/jquery-input-blocker.svg?branch=master) [![Code Climate](https://codeclimate.com/github/Palid/jquery-input-blocker/badges/gpa.svg)](https://codeclimate.com/github/Palid/jquery-input-blocker)  [![Test Coverage](https://codeclimate.com/github/Palid/jquery-input-blocker/badges/coverage.svg)](https://codeclimate.com/github/Palid/jquery-input-blocker)
 
 
 # jQuery Input Blocker
