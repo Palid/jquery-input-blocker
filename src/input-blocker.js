@@ -27,9 +27,8 @@
   };
 
   function OnKeyDown(event) {
-    var $el = $(this),
-      code = event.which || event.keyCode;
-    this.inputBlocker.__lastSelection__ = $.inputBlocker.getSelection($el);
+    var code = event.which || event.keyCode;
+    this.inputBlocker.__lastSelection__ = $.inputBlocker.getSelection(this);
     this.inputBlocker.__lastValue__ = this.value;
     if (event.ctrlKey && !event.altKey) {
       this.inputBlocker.__passEvent__ = false;
@@ -61,7 +60,7 @@
 
   function ReplacePasted() {
     var $el = $(this),
-      maxlength = $el.prop('maxlength'),
+      maxlength = this.maxLength !== -1 && this.maxLength !== 524288 ? this.maxLength : -1,
       $data = this.inputBlocker,
       pasteRe = new RegExp($data.__allowedRe__.source ||
         $data.__allowedRe__.toSource(), "g"),
@@ -75,20 +74,19 @@
         ($data.__lastPasteData__));
 
       if (maxlength === -1 || newData.length <= maxlength) {
-        $el.val(newData);
+        this.value = newData;
       } else {
-        $el.val($data.__lastValue__);
+        this.value = $data.__lastValue__;
       }
     } else {
-      $el.val($data.__lastValue__);
+      this.value = $data.__lastValue__;
     }
     $el.trigger('keydown');
     $.inputBlocker.restoreCaretPosition($el, $data.__lastSelection__, $data.__lastPasteData__.length);
   }
 
   function WaitForPaste() {
-    var $el = $(this);
-    var value = $el.val();
+    var value = this.value;
     if (value) {
       this.inputBlocker.__lastPasteData__ = value;
       ReplacePasted.call(this);
@@ -100,9 +98,8 @@
   }
 
   function OnPaste(event) {
-    var $el = $(this);
     if (this.inputBlocker.__canPaste__) {
-      this.inputBlocker.__lastSelection__ = $.inputBlocker.getSelection($el);
+      this.inputBlocker.__lastSelection__ = $.inputBlocker.getSelection(this);
       this.inputBlocker.__lastValue__ = this.value;
       if (event.originalEvent &&
         event.originalEvent.clipboardData &&
@@ -158,9 +155,9 @@
     }
     $.extend(options.node, {
       inputBlocker: {
-        __preInitMaxLength__: options.$el.prop('maxlength'),
-        __preInitValue__: options.$el.val(),
-        __lastValue__: options.$el.val(),
+        __preInitMaxLength__: options.node.maxLength,
+        __preInitValue__: options.node.value,
+        __lastValue__: options.node.value,
         __passEvent__: true,
         __trimOnPaste__: options.trimOnPaste,
         __canPaste__: options.canPaste,
@@ -207,10 +204,17 @@
   };
 
   $.inputBlocker.getSelection = function ($el) {
-    return {
-      start: $el.prop('selectionStart'),
-      end: $el.prop('selectionEnd')
-    };
+    if ($el instanceof $) {
+      return {
+        start: $el.prop('selectionStart'),
+        end: $el.prop('selectionEnd')
+      };
+    } else {
+      return {
+        start: $el.selectionStart,
+        end: $el.selectionEnd
+      };
+    }
   };
 
   $.inputBlocker.concatPasted = function (lastValue, pastedValue, selection) {
@@ -221,11 +225,11 @@
     return content.join("");
   };
 
-  $.inputBlocker.restoreCaretPosition = function ($el, selection, newLen) {
+  $.inputBlocker.restoreCaretPosition = function ($el, selection, pastedLength) {
     var selectionStartProp = $el.prop('selectionStart'),
       position = selectionStartProp ?
-      selection.start + newLen :
-      selection.end + newLen;
+      selection.start + pastedLength :
+      selection.end + pastedLength;
     if (selectionStartProp) {
       $el.focus();
       $el.prop({
