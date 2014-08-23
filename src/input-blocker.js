@@ -26,9 +26,16 @@
     shiftKey: 'shift'
   };
 
+  function getSelection(node) {
+    return {
+      start: node.selectionStart,
+      end: node.selectionEnd
+    };
+  }
+
   function OnKeyDown(event) {
     var code = event.which || event.keyCode;
-    this.inputBlocker.__lastSelection__ = $.inputBlocker.getSelection(this);
+    this.inputBlocker.__lastSelection__ = getSelection(this);
     this.inputBlocker.__lastValue__ = this.value;
     if (event.ctrlKey && !event.altKey) {
       this.inputBlocker.__passEvent__ = false;
@@ -99,7 +106,7 @@
 
   function OnPaste(event) {
     if (this.inputBlocker.__canPaste__) {
-      this.inputBlocker.__lastSelection__ = $.inputBlocker.getSelection(this);
+      this.inputBlocker.__lastSelection__ = getSelection(this);
       this.inputBlocker.__lastValue__ = this.value;
       if (event.originalEvent &&
         event.originalEvent.clipboardData &&
@@ -200,20 +207,6 @@
         .off('keypress', $el, $el.selector, OnKeyPress)
         .off('paste', $el, $el.selector, OnPaste)
         .removeClass('jquery-input-blocker');
-    }
-  };
-
-  $.inputBlocker.getSelection = function ($el) {
-    if ($el instanceof $) {
-      return {
-        start: $el.prop('selectionStart'),
-        end: $el.prop('selectionEnd')
-      };
-    } else {
-      return {
-        start: $el.selectionStart,
-        end: $el.selectionEnd
-      };
     }
   };
 
