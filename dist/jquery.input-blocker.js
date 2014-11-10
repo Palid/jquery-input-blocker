@@ -68,7 +68,7 @@
         $data.__allowedRe__.toSource(), "g"),
       match = $data.__lastPasteData__.match(pasteRe);
     if ($data.__trimOnPaste__) {
-      $data.__lastPasteData__ = $data.__lastPasteData__.trim();
+      $data.__lastPasteData__ = $.trim($data.__lastPasteData__);
     }
     if (match && match.join("") === $data.__lastPasteData__) {
       var newData = ($data.__lastValue__ ?
