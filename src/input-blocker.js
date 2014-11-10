@@ -138,20 +138,21 @@
 
   // Collection method.
   $.fn.inputBlocker = function (options) {
-    if (typeof options === "string" &&
-      (options === "destroy" || options === "clear")
+    var opts = options;
+    if (typeof opts === "string" &&
+      (opts === "destroy" || opts === "clear")
     ) {
       return $.inputBlocker.clearValidation(this);
     } else {
-      options = $.extend({
-        $el: this
-      }, $.inputBlocker.options, options);
-      return this.each(function () {
-        $.extend(options, {
-          node: this
+      opts = $.extend($.inputBlocker.options, options);
+      this.each(function () {
+        $.extend(opts, {
+          node: this,
+          $el: $(this)
         });
-        return $.inputBlocker.setValidation(options);
+        $.inputBlocker.setValidation(opts);
       });
+      return this;
     }
   };
 
@@ -184,9 +185,9 @@
     }
     options.$el
       .addClass('jquery-input-blocker')
-      .on('keydown', OnKeyDown)
-      .on('keypress', OnKeyPress)
-      .on('paste', OnPaste);
+      .on('keydown.inputBlocker', OnKeyDown)
+      .on('keypress.inputBlocker', OnKeyPress)
+      .on('paste.inputBlocker', OnPaste);
 
   };
 
@@ -203,9 +204,9 @@
         }
         node[i].inputBlocker = undefined;
       }
-      $el.off('keydown', $el, $el.selector, OnKeyDown)
-        .off('keypress', $el, $el.selector, OnKeyPress)
-        .off('paste', $el, $el.selector, OnPaste)
+      $el.off('keydown.inputBlocker', $el, $el.selector, OnKeyDown)
+        .off('keypress.inputBlocker', $el, $el.selector, OnKeyPress)
+        .off('paste.inputBlocker', $el, $el.selector, OnPaste)
         .removeClass('jquery-input-blocker');
     }
   };
